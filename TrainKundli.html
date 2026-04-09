@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Train Kundli | Rail Saarthi</title>
+    <link rel="stylesheet" href="kundli.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 20h20M7 20v-5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v5M8 13V7a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6M9 5V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
+            RailSaarthi
+        </a>
+        <ul class="nav-links">
+            <li><a href="TrackMyTrain.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11.8A8 8 0 0 0 4 10.2c0 7.3 8 11.8 8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                Track
+            </a></li>
+            <li><a href="TrainKundli.html" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                Kundli
+            </a></li>
+            <li><a href="TripPlanner.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                Planner
+            </a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Train Kundli (Profile)</h1>
+        
+        <div class="profile-card">
+            <div class="profile-header">
+                <h2>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8.01"/></svg>
+                    Gatiman Express (12049)
+                </h2>
+                <p>Nizamuddin To Jhansi Junction</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Available Days</span>
+                    <span class="value">Mon, Tue, Wed, Thu, Sat, Sun</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Train Type</span>
+                    <span class="value">Superfast Shatabdi</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Travel Time</span>
+                    <span class="value">4h 25m</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Average Speed</span>
+                    <span class="value">91 km/h</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Distance</span>
+                    <span class="value">403 km</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Available Classes</span>
+                    <span class="value">EC, CC Chair Car</span>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 2rem; display: flex; align-items: center; gap: 0.5rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                Seat Availability Matrix
+            </h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>07 April</th>
+                        <th>08 April</th>
+                        <th>09 April</th>
+                        <th>11 April</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Exec. Chair Car (EC)</strong></td>
+                        <td class="available">Available (12)</td>
+                        <td class="available">Available (45)</td>
+                        <td class="waiting">WL 5 / WL 2</td>
+                        <td class="available">Available (89)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AC Chair Car (CC)</strong></td>
+                        <td class="available">Available (102)</td>
+                        <td class="available">Available (234)</td>
+                        <td class="available">Available (15)</td>
+                        <td class="available">Available (412)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Rail Saarthi - Detailed Train Insights</p>
+    </footer>
+
+</body>
+</html>
