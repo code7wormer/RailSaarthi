@@ -66,6 +66,41 @@ nav {
 .nav-links li a:hover { background: rgba(139, 92, 246, 0.08); color: var(--primary); }
 .nav-links svg { width: 18px; height: 18px; }
 
+.nav-auth {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.auth-btn {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-btn.login {
+    color: var(--navy);
+    border: 1px solid var(--border);
+    background: var(--white);
+}
+
+.auth-btn.login:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.auth-btn.register {
+    background: var(--primary);
+    color: white;
+}
+
+.auth-btn.register:hover {
+    background: #7c3aed;
+}
+
 .container {
     padding: 8rem 10% 4rem;
     max-width: 1100px;
