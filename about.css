@@ -68,7 +68,8 @@ nav {
     list-style: none;
     display: flex;
     margin: 0;
-    gap: 1.5rem;
+    gap: 1rem;
+    align-items: center;
 }
 
 .nav-links li a {
@@ -87,6 +88,26 @@ nav {
 .nav-links li a:hover {
     background: rgba(59, 130, 246, 0.08);
     color: var(--primary);
+}
+
+.nav-links li a.active {
+    background: var(--primary);
+    color: white;
+}
+
+.nav-links li a.highlight {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+}
+
+.nav-links li a.highlight:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
 }
 
 .nav-links svg {

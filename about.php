@@ -42,6 +42,18 @@ session_start();
                     </svg>
                     <span>Kundli</span>
                 </a></li>
+            <li><a href="booking.php" class="highlight">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M2 9V5.25A2.25 2.25 0 0 1 4.25 3h15.5A2.25 2.25 0 0 1 22 5.25V9" />
+                        <path d="M22 15v3.75A2.25 2.25 0 0 1 19.75 21H4.25A2.25 2.25 0 0 1 2 18.75V15" />
+                        <path d="M12 3v18" />
+                        <path d="M2 12h5" />
+                        <path d="M17 12h5" />
+                        <path d="M7 12a5 5 0 0 1 10 0" />
+                    </svg>
+                    <span>Booking</span>
+                </a></li>
             <li><a href="TripPlanner.php">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
