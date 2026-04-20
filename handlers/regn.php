@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include '../includes/db.php';
 
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -10,7 +10,7 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 $sql = "INSERT INTO users (email, password, name) VALUES ('$email', '$hashed_password', '$name')";
 
 if($conn->query($sql) === TRUE) {
-    header("Location: auth.html?register=success");
+    header("Location: ../auth.html?register=success");
     exit();
 } else {
     echo "Error: " . $conn->error;

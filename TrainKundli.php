@@ -1,5 +1,47 @@
 <?php
 session_start();
+require_once 'includes/api_helper.php';
+
+$train_number = $_GET['train_number'] ?? '';
+$search_data = null;
+$error_message = null;
+
+if (!empty($train_number)) {
+    require_once 'includes/local_service.php';
+    $info = getTrainInfo($train_number);
+    $schedule = getTrainFullSchedule($train_number);
+    
+    if ($info && !empty($schedule)) {
+        $search_data = [
+            "data" => [
+                "train_name" => $info['train_name'],
+                "from_station_name" => $info['from_name'],
+                "to_station_name" => $info['to_name'],
+                "run_days" => explode(',', $info['run_days']),
+                "train_type" => $info['train_type'],
+                "duration" => "Simulated",
+                "distance" => $schedule[count($schedule)-1]['distance'],
+                "classes" => ['SL', '3A', '2A', '1A']
+            ]
+        ];
+    } else {
+        $error_message = "Train details not found in our local database.";
+    }
+}
+
+// Function to generate pseudo-realistic seat availability
+function getMockSeats($class) {
+    $rand = rand(0, 10);
+    if ($rand > 8) return ["status" => "waiting", "value" => "WL " . rand(5, 20) . " / WL " . rand(1, 4)];
+    if ($rand > 6) return ["status" => "available", "value" => "RAC " . rand(1, 10)];
+    return ["status" => "available", "value" => "Available (" . rand(5, 150) . ")"];
+}
+
+$classes = ['1A', '2A', '3A', 'SL', '2S', 'CC', 'EC'];
+$dates = [];
+for($i=0; $i<5; $i++) {
+    $dates[] = date('d M', strtotime("+$i days"));
+}
 ?>
 
 <!DOCTYPE html>
@@ -7,7 +49,8 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>Train Kundli | Rail Saarthi</title>
-    <link rel="stylesheet" href="kundli.css">
+    <link rel="stylesheet" href="assets/css/kundli.css">
+    <link rel="stylesheet" href="assets/css/track.css"> <!-- Reusing search box styles -->
 </head>
 <body>
 
@@ -42,93 +85,122 @@ session_start();
         </ul>
         <div class="nav-auth">
             <?php if (isset($_SESSION['user_id'])): ?>
-        <div class="profile-section">
-            <svg width="30px" height="30px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
-                <path fill="#494c4e" d="M9 0a9 9 0 0 0-9 9 8.654 8.654 0 0 0 .05.92 9 9 0 0 0 17.9 0A8.654 8.654 0 0 0 18 9a9 9 0 0 0-9-9zm5.42 13.42c-.01 0-.06.08-.07.08a6.975 6.975 0 0 1-10.7 0c-.01 0-.06-.08-.07-.08a.512.512 0 0 1-.09-.27.522.522 0 0 1 .34-.48c.74-.25 1.45-.49 1.65-.54a.16.16 0 0 1 .03-.13.49.49 0 0 1 .43-.36l1.27-.1a2.077 2.077 0 0 0-.19-.79v-.01a2.814 2.814 0 0 0-.45-.78 3.83 3.83 0 0 1-.79-2.38A3.38 3.38 0 0 1 8.88 4h.24a3.38 3.38 0 0 1 3.1 3.58 3.83 3.83 0 0 1-.79 2.38 2.814 2.814 0 0 0-.45.78v.01a2.077 2.077 0 0 0-.19.79l1.27.1a.49.49 0 0 1 .43.36.16.16 0 0 1 .03.13c.2.05.91.29 1.65.54a.49.49 0 0 1 .25.75z"></path> </g></svg>
-            <a href="#" class="name" ><?php echo $_SESSION['name']; ?></a>
-            <a href="logout.php" class="auth-btn register">Sign Out</a>
-        </div>
-
-    <?php else: ?>
-
-        <a href="auth.html" class="auth-btn login">Login</a>
-        <a href="auth.html#register" class="auth-btn register">Register</a>
-
-    <?php endif; ?>
+            <div class="profile-section">
+                <svg width="30px" height="30px" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                    <path fill="#494c4e" d="M9 0a9 9 0 0 0-9 9 8.654 8.654 0 0 0 .05.92 9 9 0 0 0 17.9 0A8.654 8.654 0 0 0 18 9a9 9 0 0 0-9-9zm5.42 13.42c-.01 0-.06.08-.07.08a6.975 6.975 0 0 1-10.7 0c-.01 0-.06-.08-.07-.08a.512.512 0 0 1-.09-.27.522.522 0 0 1 .34-.48c.74-.25 1.45-.49 1.65-.54a.16.16 0 0 1 .03-.13.49.49 0 0 1 .43-.36l1.27-.1a2.077 2.077 0 0 0-.19-.79v-.01a2.814 2.814 0 0 0-.45-.78 3.83 3.83 0 0 1-.79-2.38A3.38 3.38 0 0 1 8.88 4h.24a3.38 3.38 0 0 1 3.1 3.58 3.83 3.83 0 0 1-.79 2.38 2.814 2.814 0 0 0-.45.78v.01a2.077 2.077 0 0 0-.19.79l1.27.1a.49.49 0 0 1 .43.36.16.16 0 0 1 .03.13c.2.05.91.29 1.65.54a.49.49 0 0 1 .25.75z"></path>
+                </svg>
+                <a href="#" class="name"><?php echo $_SESSION['name']; ?></a>
+                <a href="handlers/logout.php" class="auth-btn register">Sign Out</a>
+            </div>
+            <?php else: ?>
+            <a href="auth.html" class="auth-btn login">Login</a>
+            <a href="auth.html#register" class="auth-btn register">Register</a>
+            <?php endif; ?>
         </div>
     </nav>
 
     <div class="container">
         <h1>Train Kundli (Profile)</h1>
-        
-        <div class="profile-card">
-            <div class="profile-header">
-                <h2>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8.01"/></svg>
-                    Gatiman Express (12049)
-                </h2>
-                <p>Nizamuddin To Jhansi Junction</p>
-            </div>
 
-            <div class="info-grid">
-                <div class="info-item">
-                    <span class="label">Available Days</span>
-                    <span class="value">Mon, Tue, Wed, Thu, Sat, Sun</span>
+        <div class="search-box">
+            <form method="GET" action="TrainKundli.php" class="track-form" style="grid-template-columns: 1fr auto;">
+                <div class="input-group">
+                    <label>Train Number</label>
+                    <input type="text" name="train_number" placeholder="Enter 5-digit Train Number" value="<?php echo htmlspecialchars($train_number); ?>" required>
                 </div>
-                <div class="info-item">
-                    <span class="label">Train Type</span>
-                    <span class="value">Superfast Shatabdi</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Travel Time</span>
-                    <span class="value">4h 25m</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Average Speed</span>
-                    <span class="value">91 km/h</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Distance</span>
-                    <span class="value">403 km</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Available Classes</span>
-                    <span class="value">EC, CC Chair Car</span>
-                </div>
-            </div>
-
-            <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 2rem; display: flex; align-items: center; gap: 0.5rem;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-                Seat Availability Matrix
-            </h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Class</th>
-                        <th>07 April</th>
-                        <th>08 April</th>
-                        <th>09 April</th>
-                        <th>11 April</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Exec. Chair Car (EC)</strong></td>
-                        <td class="available">Available (12)</td>
-                        <td class="available">Available (45)</td>
-                        <td class="waiting">WL 5 / WL 2</td>
-                        <td class="available">Available (89)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>AC Chair Car (CC)</strong></td>
-                        <td class="available">Available (102)</td>
-                        <td class="available">Available (234)</td>
-                        <td class="available">Available (15)</td>
-                        <td class="available">Available (412)</td>
-                    </tr>
-                </tbody>
-            </table>
+                <button type="submit" class="search-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    Fetch Profile
+                </button>
+            </form>
         </div>
+
+        <?php if ($error_message): ?>
+            <div class="error-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <?php echo htmlspecialchars($error_message); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($search_data && isset($search_data['data'])): 
+            $data = $search_data['data'];
+            $train_name = $data['train_name'] ?? 'N/A';
+            $from_to = ($data['from_station_name'] ?? 'N/A') . ' To ' . ($data['to_station_name'] ?? 'N/A');
+            $days = $data['run_days'] ?? []; // Assuming this is an array
+            $train_type = $data['train_type'] ?? 'N/A';
+            $duration = $data['duration'] ?? 'N/A';
+            $classes_raw = $data['classes'] ?? ['SL', '3A', '2A', '1A'];
+        ?>
+            <div class="profile-card">
+                <div class="profile-header">
+                    <h2>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8.01"/></svg>
+                        <?php echo htmlspecialchars($train_name); ?> (<?php echo htmlspecialchars($train_number); ?>)
+                    </h2>
+                    <p><?php echo htmlspecialchars($from_to); ?></p>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Available Days</span>
+                        <span class="value"><?php echo is_array($days) ? implode(', ', $days) : htmlspecialchars($days); ?></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Train Type</span>
+                        <span class="value"><?php echo htmlspecialchars($train_type); ?></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Travel Time</span>
+                        <span class="value"><?php echo htmlspecialchars($duration); ?></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Coach Order</span>
+                        <span class="value">Loco-EOG-<?php echo implode('-', array_slice($classes_raw, 0, 4)); ?>...-EOG</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Distance</span>
+                        <span class="value"><?php echo htmlspecialchars($data['distance'] ?? 'N/A'); ?> km</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Available Classes</span>
+                        <span class="value"><?php echo implode(', ', $classes_raw); ?></span>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 2rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    Seat Availability Matrix (Forecast)
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <?php foreach($dates as $date): ?>
+                                <th><?php echo $date; ?></th>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($classes_raw as $class): ?>
+                            <tr>
+                                <td><strong><?php echo htmlspecialchars($class); ?></strong></td>
+                                <?php foreach($dates as $date): 
+                                    $mock = getMockSeats($class);
+                                ?>
+                                    <td class="<?php echo $mock['status']; ?>"><?php echo $mock['value']; ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php elseif (!$search_data && !$error_message && !empty($train_number)): ?>
+             <div class="error-box">No profile data available for this train number.</div>
+        <?php endif; ?>
     </div>
 
     <footer>

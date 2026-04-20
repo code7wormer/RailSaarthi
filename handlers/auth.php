@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php';
+include '../includes/db.php';
 
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -15,15 +15,15 @@ if($result->num_rows > 0) {
         $_SESSION['user_id'] = $row['id'];
         $_SESSION['email'] = $row['email'];
         $_SESSION['name'] = $row['name'];
-        header("Location: index.php?login=success");
+        header("Location: ../index.php?login=success");
         exit();
 
     } else {
-        header("Location: auth.html?error=invalidpassword");
+        header("Location: ../auth.html?error=invalidpassword");
         exit();
     }
 } else {
-    header("Location: auth.html?error=User_not_found");
+    header("Location: ../auth.html?error=User_not_found");
     exit();
 }
 ?>
