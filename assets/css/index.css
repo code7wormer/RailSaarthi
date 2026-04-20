@@ -240,3 +240,22 @@ footer {
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.9rem;
 }
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.name {
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--navy);
+    padding: 0 0.5rem;
+    transition: color 0.2s;
+}
+
+.name:hover {
+    color: var(--primary);
+}

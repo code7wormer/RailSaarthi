@@ -264,3 +264,22 @@ th { background-color: #f8fafc; color: var(--slate); font-weight: 600; font-size
 .waiting { color: #f59e0b; font-weight: 800; background-color: #fffbeb; }
 
 footer { text-align: center; padding: 6rem 4rem; color: var(--slate); font-size: 0.85rem; }
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.name {
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--navy);
+    padding: 0 0.5rem;
+    transition: color 0.2s;
+}
+
+.name:hover {
+    color: var(--primary);
+}

@@ -1,33 +1,38 @@
-/* Coach Visualization Styles */
+/* Modern Coach Visualization Styles */
 
 .coach-section {
     background: #fff;
-    padding: 2rem;
-    border-radius: 1.5rem;
-    margin-top: 2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    padding: 2.5rem;
+    border-radius: 2rem;
+    margin-top: 2.5rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+    border: 1px solid #f1f5f9;
 }
 
 .coach-section h3 {
-    margin-bottom: 1.5rem;
-    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .coach-display {
     display: flex;
     overflow-x: auto;
-    gap: 0.5rem;
-    padding: 2rem 1rem;
-    background: #f8fafc;
-    border-radius: 1rem;
+    gap: 2px; /* Close proximity for connected look */
+    padding: 3rem 1.5rem;
+    background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+    border-radius: 1.5rem;
     scroll-behavior: smooth;
     align-items: flex-end;
+    border: 1px solid #e2e8f0;
 }
 
 .coach-display::-webkit-scrollbar {
-    height: 6px;
+    height: 8px;
 }
 
 .coach-display::-webkit-scrollbar-thumb {
@@ -39,67 +44,102 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 100px;
+    min-width: 120px;
+    flex-shrink: 0;
 }
 
 .coach-label {
-    font-size: 0.875rem;
-    font-weight: 800;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: #64748b;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 .coach-box {
-    width: 100px;
-    height: 50px;
-    background: #ec4899; /* Pink as requested */
-    border-radius: 4px;
+    width: 130px;
+    height: 65px;
+    background: #ec4899; /* Vibrant Pink/Red */
+    border-radius: 10px 10px 4px 4px;
     position: relative;
-    border: 2px solid #be185d;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    padding: 0 5px;
+    gap: 10px;
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+    cursor: default;
 }
 
+.coach-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Wheels */
 .coach-box::before, .coach-box::after {
     content: '';
     position: absolute;
-    bottom: -6px;
-    width: 12px;
-    height: 12px;
-    background: #475569;
+    bottom: -8px;
+    width: 18px;
+    height: 18px;
+    background: #1e293b;
     border-radius: 50%;
-    border: 2px solid #1e293b;
+    box-shadow: inset 0 0 0 4px #475569;
+    z-index: -1;
 }
 
-.coach-box::before { left: 15px; }
-.coach-box::after { right: 15px; }
+.coach-box::before { left: 20px; }
+.coach-box::after { right: 20px; }
 
+/* Windows */
 .coach-window {
-    width: 15px;
-    height: 15px;
+    width: 22px;
+    height: 20px;
     background: #94a3b8;
-    border-radius: 2px;
-    border: 1px solid #475569;
+    border-radius: 4px;
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Engine styling */
+/* Engine styling (LOCO) */
 .coach-box.engine {
-    width: 110px;
-    background: #334155;
-    border-color: #0f172a;
-    border-top-left-radius: 20px;
+    width: 140px;
+    background: #1e293b;
+    border-top-left-radius: 40px 60px; /* Aerodynamic curve */
+    border-bottom-left-radius: 10px;
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,0.3);
 }
 
 .coach-box.engine .coach-window {
     background: #f1f5f9;
+    width: 25px;
+    height: 22px;
 }
 
-.coach-box.engine::before { left: 20px; }
-.coach-box.engine::after { right: 20px; }
+/* Modern windshield for Loco */
+.coach-box.engine .coach-window:first-child {
+    border-top-left-radius: 20px;
+    margin-left: -5px;
+}
 
-/* Coupling between coaches */
+/* Coupling visual */
 .coach-container:not(:last-child) .coach-box::after {
-    box-shadow: 20px 0 0 -4px #475569;
+    box-shadow: 18px 2px 0 -4px #475569, inset 0 0 0 4px #475569;
+}
+
+/* Pantry Car Styling */
+.coach-box.pantry {
+    background: #f59e0b; /* Amber/Yellow for Pantry */
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,0.1), 0 0 15px rgba(245, 158, 11, 0.2);
+}
+
+/* Power Car / EOG Styling */
+.coach-box.power-car {
+    background: #475569; /* Slate Gray */
+}
+
+.coach-box.power-car .coach-window {
+    background: #1e293b;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px);
 }

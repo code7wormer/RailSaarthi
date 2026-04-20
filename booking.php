@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'includes/api_helper.php';
+require_once 'includes/db_book.php';
 
 $from_code = $_GET['from_code'] ?? '';
 $to_code = $_GET['to_code'] ?? '';
@@ -13,8 +14,19 @@ if (!empty($from_code) && !empty($to_code)) {
     $trains = searchTrainsBetween($from_code, $to_code);
     
     if (empty($trains)) {
-        $error_message = "No trains found for the selected route in our database.";
+        $error_message = "No trains found for the selected route.";
     }
+}
+
+// Fetch user history if requested
+$view_mode = $_GET['view'] ?? 'search';
+$bookings = [];
+if ($view_mode === 'history' && isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $stmt = $conn_book->prepare("SELECT * FROM bookings WHERE user_id = ? ORDER BY booking_time DESC");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 ?>
 
@@ -44,7 +56,7 @@ if (!empty($from_code) && !empty($to_code)) {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 Kundli
             </a></li>
-            <li><a href="booking.php" class="highlight">
+            <li><a href="booking.php" class="active">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5.25A2.25 2.25 0 0 1 4.25 3h15.5A2.25 2.25 0 0 1 22 5.25V9"/><path d="M22 15v3.75A2.25 2.25 0 0 1 19.75 21H4.25A2.25 2.25 0 0 1 2 18.75V15"/><path d="M12 3v18"/><path d="M2 12h5"/><path d="M17 12h5"/><path d="M7 12a5 5 0 0 1 10 0"/></svg>
                 Booking
             </a></li>
@@ -73,12 +85,23 @@ if (!empty($from_code) && !empty($to_code)) {
 
     <div class="booking-container">
         <header class="booking-header">
-            <h1>Book Your Journey</h1>
-            <p>Experience seamless rail travel with India's smartest booking assistant.</p>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem;">
+                <div>
+                    <h1><?php echo ($view_mode == 'history') ? 'My Bookings' : 'Book Your Journey'; ?></h1>
+                    <p><?php echo ($view_mode == 'history') ? 'Your recent travel history and confirmed tickets.' : 'Experience seamless rail travel with Indias smartest booking assistant.'; ?></p>
+                </div>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="booking.php?view=<?php echo ($view_mode == 'history') ? 'search' : 'history'; ?>" class="auth-btn login" style="height: fit-content;">
+                        <?php echo ($view_mode == 'history') ? 'Search Trains' : 'My Bookings'; ?>
+                    </a>
+                <?php endif; ?>
+            </div>
         </header>
 
+        <?php if ($view_mode === 'search'): ?>
         <div class="search-card">
             <form class="search-form" method="GET" action="booking.php">
+                <input type="hidden" name="view" value="search">
                 <div class="form-group">
                     <label>From (Station Code)</label>
                     <input type="text" name="from_code" placeholder="e.g. NDLS" value="<?php echo htmlspecialchars($from_code); ?>" required>
@@ -97,6 +120,7 @@ if (!empty($from_code) && !empty($to_code)) {
                 </button>
             </form>
         </div>
+        <?php endif; ?>
 
         <?php if ($error_message): ?>
             <div class="error-box" style="background: #fee2e2; color: #b91c1c; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; border: 1px solid #fecaca;">
@@ -105,47 +129,97 @@ if (!empty($from_code) && !empty($to_code)) {
         <?php endif; ?>
 
         <div class="results-section">
-            <?php if (!empty($trains)): ?>
-                <?php foreach ($trains as $train): ?>
-                    <div class="train-card">
-                        <div class="train-main-info">
-                            <h3><?php echo htmlspecialchars($train['train_name'] ?? 'N/A'); ?></h3>
-                            <p>Train #<?php echo htmlspecialchars($train['train_number'] ?? 'N/A'); ?> • <?php echo htmlspecialchars($train['run_days'] ?? 'Daily'); ?></p>
-                        </div>
-                        <div class="journey-details" style="display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem; margin: 1.5rem 0;">
-                            <div class="time-box">
-                                <h4 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;"><?php echo htmlspecialchars($train['from_std'] ?? '--:--'); ?></h4>
-                                <p style="color: #64748b; font-weight: 600; font-size: 0.875rem;"><?php echo htmlspecialchars($train['from_station_name'] ?? ''); ?></p>
-                            </div>
-                            <div class="journey-path" style="height: 2px; background: #e2e8f0; position: relative;">
-                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 0 0.5rem; color: #94a3b8; font-size: 0.75rem; font-weight: 700;"><?php echo htmlspecialchars($train['duration'] ?? ''); ?></div>
-                            </div>
-                            <div class="time-box" style="text-align: right;">
-                                <h4 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;"><?php echo htmlspecialchars($train['to_sta'] ?? '--:--'); ?></h4>
-                                <p style="color: #64748b; font-weight: 600; font-size: 0.875rem;"><?php echo htmlspecialchars($train['to_station_name'] ?? ''); ?></p>
-                            </div>
-                        </div>
-                        <div class="price-booking" style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid #f1f5f9;">
-                            <div class="classes-chips" style="display: flex; gap: 0.5rem;">
-                                <?php 
-                                $classes = explode(',', $train['classes'] ?? '');
-                                foreach($classes as $class): if(!empty($class)): ?>
-                                    <span style="background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.75rem; font-weight: 700; color: #475569;"><?php echo trim($class); ?></span>
-                                <?php endif; endforeach; ?>
-                            </div>
-                            <a href="#" class="book-btn" style="background: #000; color: #fff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 700; text-decoration: none; transition: transform 0.2s;">Book Now</a>
-                        </div>
+            <?php if ($view_mode === 'history'): ?>
+                <?php if (empty($bookings)): ?>
+                    <div class="no-results" style="text-align: center; padding: 4rem 2rem; color: #64748b;">
+                        <p>You havent booked any tickets yet.</p>
+                        <a href="booking.php?view=search" class="auth-btn login" style="margin-top: 1rem; display: inline-block;">Start Searching</a>
                     </div>
-                <?php endforeach; ?>
-            <?php elseif (!empty($from_code)): ?>
-                <div class="no-results" style="text-align: center; padding: 4rem 2rem; color: #64748b;">
-                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 1rem; opacity: 0.5;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    <p>No trains available for the selected route.</p>
-                </div>
+                <?php else: ?>
+                    <?php foreach ($bookings as $ticket): ?>
+                        <div class="train-card" style="border-left: 5px solid #22c55e;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <span style="font-size: 0.7rem; color: #64748b; font-weight: 800; text-transform: uppercase;">PNR: RAIL-<?php echo 10000 + $ticket['id']; ?></span>
+                                    <h3><?php echo htmlspecialchars($ticket['train_name']); ?> (<?php echo htmlspecialchars($ticket['train_number']); ?>)</h3>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span class="badge on-time">CONFIRMED</span>
+                                    <p style="font-size: 0.75rem; color: #64748b; margin-top: 5px;">Booked on: <?php echo date('d M, Y', strtotime($ticket['booking_time'])); ?></p>
+                                </div>
+                            </div>
+                            <div class="journey-details" style="display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem; margin: 1.5rem 0;">
+                                <div class="time-box">
+                                    <h4 style="font-size: 1.25rem; font-weight: 800;"><?php echo $ticket['from_station_code']; ?></h4>
+                                    <p style="color: #64748b; font-size: 0.75rem;">Origin</p>
+                                </div>
+                                <div style="text-align: center; border-bottom: 2px dashed #e2e8f0; position: relative;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 0 10px;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                                    </div>
+                                </div>
+                                <div class="time-box" style="text-align: right;">
+                                    <h4 style="font-size: 1.25rem; font-weight: 800;"><?php echo $ticket['to_station_code']; ?></h4>
+                                    <p style="color: #64748b; font-size: 0.75rem;">Destination</p>
+                                </div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; display: flex; gap: 2rem; align-items: center;">
+                                <div>
+                                    <span style="font-size: 0.7rem; color: #64748b; font-weight: 700;">DATE</span>
+                                    <div style="font-weight: 800;"><?php echo date('d M, Y', strtotime($ticket['travel_date'])); ?></div>
+                                </div>
+                                <div>
+                                    <span style="font-size: 0.7rem; color: #64748b; font-weight: 700;">SEAT / CLASS</span>
+                                    <div style="font-weight: 800;"><?php echo $ticket['seat_number']; ?> (<?php echo $ticket['class']; ?>)</div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
             <?php else: ?>
-                <div style="text-align: center; padding: 4rem 2rem; color: #64748b;">
-                     <p>Enter station codes above to find trains.</p>
-                </div>
+                <?php if (!empty($trains)): ?>
+                    <?php foreach ($trains as $train): ?>
+                        <div class="train-card">
+                            <div class="train-main-info">
+                                <h3><?php echo htmlspecialchars($train['train_name'] ?? 'N/A'); ?></h3>
+                                <p>Train #<?php echo htmlspecialchars($train['train_number'] ?? 'N/A'); ?> • <?php echo htmlspecialchars($train['run_days'] ?? 'Daily'); ?></p>
+                            </div>
+                            <div class="journey-details" style="display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem; margin: 1.5rem 0;">
+                                <div class="time-box">
+                                    <h4 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;"><?php echo htmlspecialchars($train['from_std'] ?? '--:--'); ?></h4>
+                                    <p style="color: #64748b; font-weight: 600; font-size: 0.875rem;"><?php echo htmlspecialchars($train['from_station_name'] ?? ''); ?></p>
+                                </div>
+                                <div class="journey-path" style="height: 2px; background: #e2e8f0; position: relative;">
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 0 0.5rem; color: #94a3b8; font-size: 0.75rem; font-weight: 700;"><?php echo htmlspecialchars($train['duration'] ?? ''); ?></div>
+                                </div>
+                                <div class="time-box" style="text-align: right;">
+                                    <h4 style="font-size: 1.5rem; font-weight: 800; color: #0f172a;"><?php echo htmlspecialchars($train['to_sta'] ?? '--:--'); ?></h4>
+                                    <p style="color: #64748b; font-weight: 600; font-size: 0.875rem;"><?php echo htmlspecialchars($train['to_station_name'] ?? ''); ?></p>
+                                </div>
+                            </div>
+                            <div class="price-booking" style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid #f1f5f9;">
+                                <div class="classes-chips" style="display: flex; gap: 0.5rem;">
+                                    <?php 
+                                    $classes = explode(',', $train['classes'] ?? '');
+                                    foreach($classes as $class): if(!empty($class)): ?>
+                                        <span style="background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.75rem; font-weight: 700; color: #475569;"><?php echo trim($class); ?></span>
+                                    <?php endif; endforeach; ?>
+                                </div>
+                                <a href="confirm_booking.php?train_number=<?php echo $train['train_number']; ?>&from=<?php echo $train['from_station_name']; ?>&to=<?php echo $train['to_station_name']; ?>" class="book-btn" style="background: #000; color: #fff; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 700; text-decoration: none; transition: transform 0.2s;">Book Now</a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php elseif (!empty($from_code)): ?>
+                    <div class="no-results" style="text-align: center; padding: 4rem 2rem; color: #64748b;">
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 1rem; opacity: 0.5;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <p>No trains available for the selected route.</p>
+                    </div>
+                <?php else: ?>
+                    <div style="text-align: center; padding: 4rem 2rem; color: #64748b;">
+                         <p>Enter station codes above to find trains.</p>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>

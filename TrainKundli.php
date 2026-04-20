@@ -74,7 +74,7 @@ for($i=0; $i<5; $i++) {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 Kundli
             </a></li>
-            <li><a href="booking.php" class="highlight">
+            <li><a href="booking.php">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5.25A2.25 2.25 0 0 1 4.25 3h15.5A2.25 2.25 0 0 1 22 5.25V9"/><path d="M22 15v3.75A2.25 2.25 0 0 1 19.75 21H4.25A2.25 2.25 0 0 1 2 18.75V15"/><path d="M12 3v18"/><path d="M2 12h5"/><path d="M17 12h5"/><path d="M7 12a5 5 0 0 1 10 0"/></svg>
                 Booking
             </a></li>
@@ -214,10 +214,16 @@ for($i=0; $i<5; $i++) {
                         <div class="coach-display">
                             <?php foreach ($coach_sequence as $coach): 
                                 $is_engine = ($coach === 'EN');
+                                $is_pantry = ($coach === 'PC');
+                                $is_power = (in_array($coach, ['EOG', 'EOR', 'SLR']));
                                 ?>
                                 <div class="coach-container">
                                     <div class="coach-label"><?php echo ($is_engine) ? 'LOCO' : $coach; ?></div>
-                                    <div class="coach-box <?php echo ($is_engine) ? 'engine' : ''; ?>">
+                                    <div class="coach-box <?php 
+                                        echo ($is_engine) ? 'engine ' : ''; 
+                                        echo ($is_pantry) ? 'pantry ' : '';
+                                        echo ($is_power) ? 'power-car ' : '';
+                                    ?>">
                                         <div class="coach-window"></div>
                                         <div class="coach-window"></div>
                                         <div class="coach-window"></div>

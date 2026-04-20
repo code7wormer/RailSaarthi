@@ -71,76 +71,102 @@ if (!empty($station_code)) {
 
     <div class="container">
         <h1>Smart Trip Planner</h1>
-        <p class="subtitle">Explore trains arriving or departing from your favorite stations.</p>
+        <p class="subtitle">Hand-curated rail journeys to Indias most iconic destinations.</p>
 
-        <div class="search-box" style="margin: 2rem 0;">
-            <form method="GET" action="TripPlanner.php" class="track-form" style="grid-template-columns: 1fr auto;">
-                <div class="input-group">
-                    <label>Station Code</label>
-                    <input type="text" name="station_code" placeholder="Enter Station Code (e.g., ADI, BCT)" value="<?php echo htmlspecialchars($station_code); ?>" required>
+        <div class="trip-grid">
+            <!-- Trip 1: Heritage Trail -->
+            <div class="trip-card">
+                <div class="trip-details">
+                    <span class="tagline">Mughal Heritage • History</span>
+                    <h3>The Golden Triangle</h3>
+                    <p>Trace the footsteps of emperors through the grand architectural marvels of North India.</p>
+                    
+                    <div class="checklist">
+                        <span class="checklist-title">Spots to Cover</span>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            Taj Mahal, Agra
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            Red Fort, Delhi
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            Amer Fort, Jaipur
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="search-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    Explore Trains
-                </button>
-            </form>
+                <div class="cost-info">
+                    <div>
+                        <span class="price-label">Est. Budget</span>
+                        <div class="price">₹3,500 - ₹5,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trip 2: Coastal Magic -->
+            <div class="trip-card">
+                <div class="trip-details">
+                    <span class="tagline">Konkan Coast • Nature</span>
+                    <h3>Coastal Retreat</h3>
+                    <p>Wind through 103 tunnels and breathtaking valleys on the iconic route from Mumbai to Goa.</p>
+                    
+                    <div class="checklist">
+                        <span class="checklist-title">Spots to Cover</span>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            Dudhsagar Falls
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            Aguada Fort, Goa
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            Gateway of India
+                        </div>
+                    </div>
+                </div>
+                <div class="cost-info">
+                    <div>
+                        <span class="price-label">Est. Budget</span>
+                        <div class="price">₹2,200 - ₹4,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trip 3: Royal Rajasthan -->
+            <div class="trip-card">
+                <div class="trip-details">
+                    <span class="tagline">Desert Sands • Royalty</span>
+                    <h3>Royal Heritage</h3>
+                    <p>Experience the majestic forts and colorful culture of the Blue City and the Pink City.</p>
+                    
+                    <div class="checklist">
+                        <span class="checklist-title">Spots to Cover</span>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            Mehrangarh Fort
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            Umaid Bhawan Palace
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                            City Palace, Jaipur
+                        </div>
+                    </div>
+                </div>
+                <div class="cost-info">
+                    <div>
+                        <span class="price-label">Est. Budget</span>
+                        <div class="price">₹4,500 - ₹7,000</div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <?php if (!empty($trains)): ?>
-            <div class="trains-list" style="display: grid; gap: 1.5rem;">
-                <h3 style="margin-bottom: 0.5rem; color: #475569;">Trains found at <?php echo htmlspecialchars($station_name); ?>:</h3>
-                <?php foreach ($trains as $train): ?>
-                    <div class="trip-card" style="display: flex; flex-direction: column; height: auto; border: 1px dashed #cbd5e1; background: #f8fafc;">
-                        <div class="trip-details">
-                            <span class="tagline">TRAIN #<?php echo htmlspecialchars($train['train_number'] ?? ''); ?></span>
-                            <h3><?php echo htmlspecialchars($train['train_name'] ?? 'N/A'); ?></h3>
-                            <div style="display: flex; gap: 2rem; margin-top: 1rem;">
-                                <div>
-                                    <span style="font-size: 0.75rem; color: #64748b; font-weight: 700;">DEPARTURE</span>
-                                    <div style="font-size: 1.25rem; font-weight: 800;"><?php echo htmlspecialchars($train['departure_time'] ?? '--:--'); ?></div>
-                                </div>
-                                <div>
-                                    <span style="font-size: 0.75rem; color: #64748b; font-weight: 700;">PLATFORM</span>
-                                    <div style="font-size: 1.25rem; font-weight: 800; color: #2563eb;"><?php echo htmlspecialchars($train['extra_info'] ?? 'N/A'); ?></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <div class="trip-grid">
-                <div class="trip-card">
-                    <div class="trip-details">
-                        <span class="tagline">Heritage • Culture • North India</span>
-                        <h3>The Golden Triangle</h3>
-                        <p>Experience the majestic circuit of Delhi, Agra, and Jaipur. Optimized travel via high-speed Shatabdi.</p>
-                        <div class="cost-info">
-                            <div>
-                                <span class="price-label">Estimated Cost</span>
-                                <div class="price">₹2,500 - ₹4,500</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="trip-card">
-                    <div class="trip-details">
-                        <span class="tagline">Western Ghats • Vande Bharat</span>
-                        <h3>Coastal Retreat (Goa)</h3>
-                        <p>Wind through 103 tunnels and breathtaking valleys via the Vande Bharat Express.</p>
-                        <div class="cost-info">
-                            <div>
-                                <span class="price-label">Estimated Cost</span>
-                                <div class="price">₹1,200 - ₹3,000</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
     </div>
 
     <footer>

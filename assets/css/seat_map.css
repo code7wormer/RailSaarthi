@@ -1,0 +1,122 @@
+/* Coach Layout Styling */
+.coach-container {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    font-family: inherit;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.coach-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.toilet-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.toilet {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #64748b;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Seat Grid */
+.seat-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.bay-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 2rem 1fr;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* Seat Base */
+.seat {
+    height: 40px;
+    width: 60px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    border: 2px solid transparent;
+}
+
+.seat:hover:not(.booked) {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.seat.selected {
+    border-color: #000;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+    transform: scale(1.1);
+    z-index: 2;
+}
+
+.seat.booked {
+    background: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed;
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* Berth Type Colors (Based on reference) */
+.seat.lower { background: #a3e635; color: #166534; }       /* Green */
+.seat.middle { background: #fdba74; color: #9a3412; }      /* Orange */
+.seat.upper { background: #7dd3fc; color: #075985; }       /* Light Blue */
+.seat.side-lower { background: #c084fc; color: #581c87; }  /* Purple */
+.seat.side-upper { background: #fb7185; color: #9f1239; }  /* Pink */
+
+/* Aisle Space */
+.aisle {
+    width: 2rem;
+}
+
+/* Legend Styling */
+.legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+}

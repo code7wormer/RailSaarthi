@@ -38,17 +38,6 @@
     padding-left: 60px;
 }
 
-.timeline-track::before {
-    content: '';
-    position: absolute;
-    left: 28px;
-    top: 10px;
-    bottom: 10px;
-    width: 4px;
-    background: #e2e8f0;
-    border-radius: 2px;
-}
-
 .timeline-node {
     position: relative;
     margin-bottom: 2.5rem;
@@ -60,27 +49,21 @@
 
 .node-dot {
     position: absolute;
-    left: -37px;
+    left: -30px;
+    transform: translateX(-50%);
     width: 14px;
     height: 14px;
     background: #cbd5e1;
     border: 3px solid #fff;
     border-radius: 50%;
-    z-index: 2;
+    z-index: 5;
     transition: all 0.3s ease;
-}
-
-.timeline-node.departed .node-dot { background: #94a3b8; }
-.timeline-node.arrived .node-dot { 
-    background: #2563eb; 
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2); 
-    transform: scale(1.3);
 }
 
 .train-icon-live {
     position: absolute;
-    left: -48px;
-    top: -5px;
+    left: -30px;
+    transform: translate(-50%, -5px);
     background: #fff;
     border: 2px solid #2563eb;
     border-radius: 50%;
@@ -90,9 +73,48 @@
     align-items: center;
     justify-content: center;
     color: #2563eb;
-    z-index: 3;
+    z-index: 10;
     animation: bounce-soft 2s infinite ease-in-out;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* Dynamic Track Line segments */
+.timeline-node::after {
+    content: '';
+    position: absolute;
+    left: -30px;
+    transform: translateX(-50%);
+    top: 50%;
+    height: calc(100% + 2.5rem);
+    width: 4px;
+    background: #2563eb; /* Default to blue (upcoming) */
+    z-index: 1;
+}
+
+.timeline-node:last-child::after {
+    display: none;
+}
+
+/* Color segments based on train progress */
+.timeline-node.departed::after {
+    background: #cbd5e1; /* Gray for covered path */
+    width: 6px; /* Slightly thicker 'bar' for covered path as requested */
+}
+
+/* Component Colors based on Status */
+.timeline-node.departed .node-dot {
+    background: #94a3b8; /* Darker gray for reached stations */
+}
+
+.timeline-node.upcoming .node-dot {
+    background: #2563eb; /* Blue for yet to arrive */
+    border-color: #dbeafe; /* Light blue border for upcoming */
+}
+
+.timeline-node.arrived .node-dot {
+    background: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+    transform: translateX(-50%) scale(1.3);
 }
 
 @keyframes bounce-soft {

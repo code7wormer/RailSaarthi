@@ -133,8 +133,8 @@ h1 { font-size: 3.5rem; font-weight: 800; color: var(--navy); margin-bottom: 2re
 
 .trip-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
 }
 
 .trip-card {
@@ -145,23 +145,89 @@ h1 { font-size: 3.5rem; font-weight: 800; color: var(--navy); margin-bottom: 2re
     text-align: left;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
 }
 
-.trip-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.12); }
+.trip-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px -15px rgba(0,0,0,0.12); }
 
-.trip-details { padding: 3.5rem; }
+.trip-details { 
+    padding: 3.5rem 3rem; 
+    flex-grow: 1; 
+}
 
 .trip-details h3 { font-size: 1.8rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem; letter-spacing: -1px; }
 
 .tagline { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--primary); letter-spacing: 1.5px; margin-bottom: 1.5rem; }
 
-.trip-details p { font-size: 1.05rem; color: var(--slate); line-height: 1.7; margin-bottom: 2.5rem; }
+.trip-details p { 
+    font-size: 1.05rem; 
+    color: var(--slate); 
+    line-height: 1.7; 
+    margin-bottom: 2rem; 
+    opacity: 0.9;
+}
+
+/* Checklist Styling */
+.checklist {
+    background: #f8fafc;
+    padding: 1.75rem;
+    border-radius: 24px;
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+    border: 1px solid #f1f5f9;
+}
+
+.checklist-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 1.25rem;
+    display: block;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--navy);
+    font-weight: 500;
+}
+
+.checklist-item:last-child { margin-bottom: 0; }
+
+.check-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    background: #10b98115;
+    color: var(--primary);
+    border-radius: 6px;
+    flex-shrink: 0 !important;
+}
+
+.check-icon svg { 
+    width: 14px !important; 
+    height: 14px !important; 
+    min-width: 14px !important;
+    min-height: 14px !important;
+    display: block !important;
+}
 
 .cost-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 1.5rem;
+    padding: 1.5rem 3rem;
+    background: rgba(16, 185, 129, 0.03);
     border-top: 1px solid #f1f5f9;
 }
 
@@ -170,3 +236,22 @@ h1 { font-size: 3.5rem; font-weight: 800; color: var(--navy); margin-bottom: 2re
 .price-label { font-size: 0.8rem; font-weight: 600; color: var(--slate); text-transform: uppercase; letter-spacing: 1px; }
 
 footer { text-align: center; padding: 6rem 4rem; color: var(--slate); font-size: 0.85rem; }
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.name {
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--navy);
+    padding: 0 0.5rem;
+    transition: color 0.2s;
+}
+
+.name:hover {
+    color: var(--primary);
+}
