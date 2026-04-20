@@ -12,6 +12,9 @@ if (!empty($train_number)) {
     $schedule = getTrainFullSchedule($train_number);
     
     if ($info && !empty($schedule)) {
+        $first_stop = $schedule[0];
+        $last_stop = $schedule[count($schedule)-1];
+        
         $search_data = [
             "data" => [
                 "train_name" => $info['train_name'],
@@ -19,8 +22,8 @@ if (!empty($train_number)) {
                 "to_station_name" => $info['to_name'],
                 "run_days" => explode(',', $info['run_days']),
                 "train_type" => $info['train_type'],
-                "duration" => "Simulated",
-                "distance" => $schedule[count($schedule)-1]['distance'],
+                "duration" => calculateDuration($first_stop['departure_time'], $last_stop['arrival_time']),
+                "distance" => $last_stop['distance'],
                 "classes" => ['SL', '3A', '2A', '1A']
             ]
         ];
@@ -51,6 +54,7 @@ for($i=0; $i<5; $i++) {
     <title>Train Kundli | Rail Saarthi</title>
     <link rel="stylesheet" href="assets/css/kundli.css">
     <link rel="stylesheet" href="assets/css/track.css"> <!-- Reusing search box styles -->
+    <link rel="stylesheet" href="assets/css/coach.css">
 </head>
 <body>
 
@@ -173,7 +177,7 @@ for($i=0; $i<5; $i++) {
 
                 <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 2rem; display: flex; align-items: center; gap: 0.5rem;">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-                    Seat Availability Matrix (Forecast)
+                    Seat Availability Matrix (Live Database)
                 </h3>
                 <table>
                     <thead>
@@ -197,6 +201,33 @@ for($i=0; $i<5; $i++) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+
+                <!-- Coach Position Section -->
+                <?php 
+                $coach_sequence = getCoachSequence($train_number);
+                if (!empty($coach_sequence)): ?>
+                    <div class="coach-section">
+                        <h3>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="13" x2="20" y2="13"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                            Coach Position & Composition
+                        </h3>
+                        <div class="coach-display">
+                            <?php foreach ($coach_sequence as $coach): 
+                                $is_engine = ($coach === 'EN');
+                                ?>
+                                <div class="coach-container">
+                                    <div class="coach-label"><?php echo ($is_engine) ? 'LOCO' : $coach; ?></div>
+                                    <div class="coach-box <?php echo ($is_engine) ? 'engine' : ''; ?>">
+                                        <div class="coach-window"></div>
+                                        <div class="coach-window"></div>
+                                        <div class="coach-window"></div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <p style="margin-top: 1rem; color: #64748b; font-size: 0.8rem; font-weight: 600;">* Typical coach position. Subject to operational changes.</p>
+                    </div>
+                <?php endif; ?>
             </div>
         <?php elseif (!$search_data && !$error_message && !empty($train_number)): ?>
              <div class="error-box">No profile data available for this train number.</div>

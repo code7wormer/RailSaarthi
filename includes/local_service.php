@@ -147,11 +147,30 @@ function searchTrainsBetween($from_code, $to_code) {
             "from_station_name" => $row['from_station_name'],
             "to_sta" => date('H:i', strtotime($row['to_sta'])),
             "to_station_name" => $row['to_station_name'],
-            "duration" => "Simulated",
+            "duration" => calculateDuration($row['from_std'], $row['to_sta']),
             "classes" => "1A,2A,3A,SL"
         ];
     }
     return $trains;
+}
+
+/**
+ * Calculate travel duration between two times, handling day rollover
+ */
+function calculateDuration($from_time, $to_time) {
+    if (!$from_time || !$to_time) return "N/A";
+    $start = strtotime($from_time);
+    $end = strtotime($to_time);
+    
+    if ($end <= $start) {
+        $end += 86400; // Multi-day journey
+    }
+    
+    $diff = $end - $start;
+    $hours = floor($diff / 3600);
+    $mins = floor(($diff % 3600) / 60);
+    
+    return $hours . "h " . $mins . "m";
 }
 
 /**
@@ -184,5 +203,26 @@ function getTrainsAtStation($station_code) {
         ];
     }
     return $trains;
+}
+
+/**
+ * Generate a simulated coach sequence based on train type
+ */
+function getCoachSequence($train_number) {
+    $info = getTrainInfo($train_number);
+    if (!$info) return [];
+
+    $sequence = ["EN"]; // Engine always first
+    
+    $type = strtolower($info['train_type'] ?? '');
+    if (strpos($type, 'rajdhani') !== false || strpos($type, 'vande') !== false) {
+        $sequence = array_merge($sequence, ["H1", "A1", "A2", "B1", "B2", "B3", "B4", "B5", "B6", "PC", "B7", "B8", "B9", "B10", "EOR"]);
+    } elseif (strpos($type, 'shatabdi') !== false) {
+        $sequence = array_merge($sequence, ["E1", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "PC", "C8", "C9", "C10", "EOR"]);
+    } else {
+        $sequence = array_merge($sequence, ["GS", "GS", "S1", "S2", "S3", "S4", "S5", "B1", "B2", "A1", "GS", "SLR"]);
+    }
+    
+    return $sequence;
 }
 ?>

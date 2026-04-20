@@ -74,7 +74,7 @@ if (!empty($from_code) && !empty($to_code)) {
     <div class="booking-container">
         <header class="booking-header">
             <h1>Book Your Journey</h1>
-            <p>Experience seamless rail travel with India's smartest booking assistant. [DEMO MODE]</p>
+            <p>Experience seamless rail travel with India's smartest booking assistant.</p>
         </header>
 
         <div class="search-card">
@@ -93,7 +93,7 @@ if (!empty($from_code) && !empty($to_code)) {
                 </div>
                 <button type="submit" class="search-btn">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    Search Trains (Simulated)
+                    Search Trains
                 </button>
             </form>
         </div>
@@ -140,11 +140,11 @@ if (!empty($from_code) && !empty($to_code)) {
             <?php elseif (!empty($from_code)): ?>
                 <div class="no-results" style="text-align: center; padding: 4rem 2rem; color: #64748b;">
                     <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 1rem; opacity: 0.5;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    <p>Simulation: No trains available for this simulated search.</p>
+                    <p>No trains available for the selected route.</p>
                 </div>
             <?php else: ?>
                 <div style="text-align: center; padding: 4rem 2rem; color: #64748b;">
-                     <p>Enter station codes above to simulate a search.</p>
+                     <p>Enter station codes above to find trains.</p>
                 </div>
             <?php endif; ?>
         </div>

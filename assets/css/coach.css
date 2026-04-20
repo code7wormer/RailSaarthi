@@ -1,0 +1,105 @@
+/* Coach Visualization Styles */
+
+.coach-section {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.coach-section h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.coach-display {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding: 2rem 1rem;
+    background: #f8fafc;
+    border-radius: 1rem;
+    scroll-behavior: smooth;
+    align-items: flex-end;
+}
+
+.coach-display::-webkit-scrollbar {
+    height: 6px;
+}
+
+.coach-display::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.coach-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.coach-label {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.coach-box {
+    width: 100px;
+    height: 50px;
+    background: #ec4899; /* Pink as requested */
+    border-radius: 4px;
+    position: relative;
+    border: 2px solid #be185d;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 5px;
+}
+
+.coach-box::before, .coach-box::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    width: 12px;
+    height: 12px;
+    background: #475569;
+    border-radius: 50%;
+    border: 2px solid #1e293b;
+}
+
+.coach-box::before { left: 15px; }
+.coach-box::after { right: 15px; }
+
+.coach-window {
+    width: 15px;
+    height: 15px;
+    background: #94a3b8;
+    border-radius: 2px;
+    border: 1px solid #475569;
+}
+
+/* Engine styling */
+.coach-box.engine {
+    width: 110px;
+    background: #334155;
+    border-color: #0f172a;
+    border-top-left-radius: 20px;
+}
+
+.coach-box.engine .coach-window {
+    background: #f1f5f9;
+}
+
+.coach-box.engine::before { left: 20px; }
+.coach-box.engine::after { right: 20px; }
+
+/* Coupling between coaches */
+.coach-container:not(:last-child) .coach-box::after {
+    box-shadow: 20px 0 0 -4px #475569;
+}

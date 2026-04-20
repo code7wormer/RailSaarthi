@@ -70,8 +70,8 @@ if (!empty($station_code)) {
     </nav>
 
     <div class="container">
-        <h1>Smart Trip Planner [DEMO MODE]</h1>
-        <p class="subtitle">Explore trains arriving or departing from your favorite stations. (Simulated Data)</p>
+        <h1>Smart Trip Planner</h1>
+        <p class="subtitle">Explore trains arriving or departing from your favorite stations.</p>
 
         <div class="search-box" style="margin: 2rem 0;">
             <form method="GET" action="TripPlanner.php" class="track-form" style="grid-template-columns: 1fr auto;">
@@ -83,7 +83,7 @@ if (!empty($station_code)) {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
-                    Explore Trains (Simulated)
+                    Explore Trains
                 </button>
             </form>
         </div>
