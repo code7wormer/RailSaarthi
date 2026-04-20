@@ -136,45 +136,56 @@ if ($view_mode === 'history' && isset($_SESSION['user_id'])) {
                         <a href="booking.php?view=search" class="auth-btn login" style="margin-top: 1rem; display: inline-block;">Start Searching</a>
                     </div>
                 <?php else: ?>
-                    <?php foreach ($bookings as $ticket): ?>
-                        <div class="train-card" style="border-left: 5px solid #22c55e;">
-                            <div style="display: flex; justify-content: space-between;">
-                                <div>
-                                    <span style="font-size: 0.7rem; color: #64748b; font-weight: 800; text-transform: uppercase;">PNR: RAIL-<?php echo 10000 + $ticket['id']; ?></span>
-                                    <h3><?php echo htmlspecialchars($ticket['train_name']); ?> (<?php echo htmlspecialchars($ticket['train_number']); ?>)</h3>
-                                </div>
-                                <div style="text-align: right;">
-                                    <span class="badge on-time">CONFIRMED</span>
-                                    <p style="font-size: 0.75rem; color: #64748b; margin-top: 5px;">Booked on: <?php echo date('d M, Y', strtotime($ticket['booking_time'])); ?></p>
-                                </div>
-                            </div>
-                            <div class="journey-details" style="display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem; margin: 1.5rem 0;">
-                                <div class="time-box">
-                                    <h4 style="font-size: 1.25rem; font-weight: 800;"><?php echo $ticket['from_station_code']; ?></h4>
-                                    <p style="color: #64748b; font-size: 0.75rem;">Origin</p>
-                                </div>
-                                <div style="text-align: center; border-bottom: 2px dashed #e2e8f0; position: relative;">
-                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 0 10px;">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
+                    <div class="ticket-grid">
+                        <?php foreach ($bookings as $ticket): 
+                            $date_obj = strtotime($ticket['travel_date']);
+                        ?>
+                            <div class="ticket-card">
+                                <div class="ticket-main">
+                                    <div class="ticket-date-stack">
+                                        <span class="month"><?php echo date('M', $date_obj); ?></span>
+                                        <span class="day"><?php echo date('d', $date_obj); ?></span>
+                                    </div>
+                                    
+                                    <div class="ticket-route">
+                                        <div class="route-node">
+                                            <h4><?php echo $ticket['from_station_code']; ?></h4>
+                                            <p>Origin</p>
+                                        </div>
+                                        <div class="route-line"></div>
+                                        <div class="route-node">
+                                            <h4><?php echo $ticket['to_station_code']; ?></h4>
+                                            <p>Destination</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="ticket-meta">
+                                        <span class="ticket-status">CONFIRMED</span>
+                                        <span class="ticket-pnr">PNR: RAIL-<?php echo 10000 + $ticket['id']; ?></span>
                                     </div>
                                 </div>
-                                <div class="time-box" style="text-align: right;">
-                                    <h4 style="font-size: 1.25rem; font-weight: 800;"><?php echo $ticket['to_station_code']; ?></h4>
-                                    <p style="color: #64748b; font-size: 0.75rem;">Destination</p>
+
+                                <div class="ticket-details-reveal">
+                                    <div class="reveal-item">
+                                        <span class="label">Train Name</span>
+                                        <span class="value"><?php echo htmlspecialchars($ticket['train_name']); ?></span>
+                                    </div>
+                                    <div class="reveal-item">
+                                        <span class="label">Train Number</span>
+                                        <span class="value">#<?php echo htmlspecialchars($ticket['train_number']); ?></span>
+                                    </div>
+                                    <div class="reveal-item">
+                                        <span class="label">Seat / Class</span>
+                                        <span class="value"><?php echo $ticket['seat_number']; ?> (<?php echo $ticket['class']; ?>)</span>
+                                    </div>
+                                    <div class="reveal-item">
+                                        <span class="label">Booking Time</span>
+                                        <span class="value"><?php echo date('d M, H:i', strtotime($ticket['booking_time'])); ?></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="background: #f8fafc; padding: 1rem; border-radius: 12px; display: flex; gap: 2rem; align-items: center;">
-                                <div>
-                                    <span style="font-size: 0.7rem; color: #64748b; font-weight: 700;">DATE</span>
-                                    <div style="font-weight: 800;"><?php echo date('d M, Y', strtotime($ticket['travel_date'])); ?></div>
-                                </div>
-                                <div>
-                                    <span style="font-size: 0.7rem; color: #64748b; font-weight: 700;">SEAT / CLASS</span>
-                                    <div style="font-weight: 800;"><?php echo $ticket['seat_number']; ?> (<?php echo $ticket['class']; ?>)</div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
 
             <?php else: ?>

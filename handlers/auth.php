@@ -5,6 +5,16 @@ include '../includes/db.php';
 $email = $_POST['email'];
 $password = $_POST['password'];
 
+// Specific Admin Login Check
+if ($email === 'admin@railsaarthi.com' && $password === 'Admin@123') {
+    $_SESSION['user_id'] = 999; // Mock Admin ID
+    $_SESSION['email'] = $email;
+    $_SESSION['name'] = 'System Administrator';
+    $_SESSION['is_admin'] = true;
+    header("Location: ../admin_add_train.php");
+    exit();
+}
+
 $sql = "SELECT * FROM users WHERE email='$email'";
 $result = $conn->query($sql);
 
