@@ -162,7 +162,7 @@ session_start();
     </section>
 
     <footer>
-        <p>&copy; 2026 Rail Saarthi &mdash; Application Programming Project 2nd Semester. <a href="index.html">Back to
+        <p>&copy; 2026 Rail Saarthi &mdash; Application Programming Project 2nd Semester. <a href="index.php">Back to
                 Home</a></p>
     </footer>
 
