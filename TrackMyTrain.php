@@ -26,7 +26,6 @@ if (!empty($train_number)) {
 </head>
 <body>
 
-    <!-- Loading Overlay -->
     <?php if ($status_data): ?>
     <div id="loadingOverlay" class="loading-overlay">
         <div class="satellite-track"></div>
@@ -178,7 +177,6 @@ if (!empty($train_number)) {
             const content = document.getElementById('mainContent');
             
             if (overlay) {
-                // Generate random delay between 3000ms and 5000ms
                 const randomDelay = Math.floor(Math.random() * (5000 - 3000 + 1) + 3000);
                 
                 setTimeout(() => {

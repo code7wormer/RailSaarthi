@@ -23,17 +23,14 @@ if (!$info) {
     die("Train not found.");
 }
 
-// Fetch availability
 $stmt = $conn_book->prepare("SELECT class, available_seats FROM seat_inventory WHERE train_number = ?");
 $stmt->bind_param("s", $train_number);
 $stmt->execute();
 $inventory = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-// Selected state
 $selected_class = $_GET['class'] ?? ($inventory[0]['class'] ?? 'SL');
 $selected_date = $_GET['date'] ?? date('Y-m-d');
 
-// Fetch already booked seats for this SPECIFIC trip
 $booked_seats = [];
 $stmt = $conn_book->prepare("SELECT seat_number FROM bookings WHERE train_number = ? AND class = ? AND travel_date = ? AND status = 'CONFIRMED'");
 $stmt->bind_param("sss", $train_number, $selected_class, $selected_date);
@@ -43,7 +40,6 @@ while($row = $res->fetch_assoc()) {
     $booked_seats[] = $row['seat_number'];
 }
 
-// Function to get berth type color class
 function getBerthClass($num) {
     $rem = $num % 8;
     if ($rem == 1 || $rem == 4) return 'lower';
@@ -106,7 +102,6 @@ function getBerthClass($num) {
                     </select>
                 </div>
 
-                <!-- Seat Map Section -->
                 <div class="coach-container">
                     <div class="coach-header">
                         <span style="font-weight: 800; color: #1e293b;">Coach Layout - <?php echo $selected_class; ?></span>
@@ -200,10 +195,8 @@ function getBerthClass($num) {
         function selectSeat(num, element) {
             if (element.classList.contains('booked')) return;
 
-            // Remove previous selection
             document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
             
-            // Add new selection
             element.classList.add('selected');
             document.getElementById('selected_seat_display').value = num;
         }

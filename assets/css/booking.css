@@ -8,7 +8,7 @@
     --bg-light: #f1f5f9;
     --white: #ffffff;
     --border: rgba(226, 232, 240, 0.8);
-    --accent: #f59e0b; /* Amber for highlight */
+    --accent: #f59e0b;
 }
 
 body {
@@ -20,7 +20,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Navbar styles (consistent with other pages) */
 nav {
     position: fixed;
     top: 1.5rem;
@@ -144,7 +143,6 @@ nav {
     color: var(--primary);
 }
 
-/* Booking Page Specifics */
 .booking-container {
     padding: 8rem 5% 4rem;
     max-width: 1200px;
@@ -515,5 +513,5 @@ nav {
         padding-bottom: 1.5rem;
     }
     .ticket-meta { text-align: center; }
-    .ticket-details-reveal { display: none; } /* Hide complicated reveal on mobile */
+    .ticket-details-reveal { display: none; }
 }

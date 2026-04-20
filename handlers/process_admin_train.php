@@ -22,21 +22,17 @@ $s_dists = $_POST['s_dist'];
 $conn_rail->begin_transaction();
 
 try {
-    // 1. Ensure all stations in schedule exist in 'stations' table
-    // (This prevents foreign key constraint issues)
     $stmt_stn = $conn_rail->prepare("INSERT IGNORE INTO stations (station_code, station_name) VALUES (?, ?)");
     foreach ($s_codes as $code) {
-        $mock_name = $code . " Station"; // Placeholder name if not exists
+        $mock_name = $code . " Station"; 
         $stmt_stn->bind_param("ss", $code, $mock_name);
         $stmt_stn->execute();
     }
 
-    // 2. Insert Main Train Info
     $stmt_train = $conn_rail->prepare("INSERT INTO trains (train_number, train_name, from_station_code, to_station_code, train_type, run_days) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt_train->bind_param("ssssss", $train_number, $train_name, $from_code, $to_code, $train_type, $run_days);
     $stmt_train->execute();
 
-    // 3. Insert Schedule
     $stmt_sched = $conn_rail->prepare("INSERT INTO train_schedule (train_number, station_code, stop_number, arrival_time, departure_time, distance) VALUES (?, ?, ?, ?, ?, ?)");
     
     for ($i = 0; $i < count($stop_nos); $i++) {

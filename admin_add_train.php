@@ -194,43 +194,40 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                     </h3>
                     
                     <div class="schedule-header">
-                        <span># Stop</span>
-                        <span>Station Code</span>
-                        <span>Arrival</span>
-                        <span>Departure</span>
-                        <span>Dist (km)</span>
-                        <span>Notes</span>
+                        <span class="col-stop"># Stop</span>
+                        <span class="col-code">Station Code</span>
+                        <span class="col-time">Arrival</span>
+                        <span class="col-time">Departure</span>
+                        <span class="col-dist">Dist (km)</span>
+                        <span class="col-notes">Notes</span>
                     </div>
 
                     <div id="scheduleContainer">
-                        <!-- Origin -->
                         <div class="schedule-row">
-                            <input type="number" name="stop_no[]" value="1" readonly>
-                            <input type="text" name="s_code[]" placeholder="Code" required>
-                            <input type="time" name="s_arr[]" value="00:00" readonly>
-                            <input type="time" name="s_dep[]" required>
-                            <input type="number" name="s_dist[]" value="0" readonly>
-                            <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">ORIGIN</span>
+                            <input type="number" name="stop_no[]" value="1" readonly class="col-stop">
+                            <input type="text" name="s_code[]" placeholder="Code" required class="col-code">
+                            <input type="time" name="s_arr[]" value="00:00" readonly class="col-time">
+                            <input type="time" name="s_dep[]" required class="col-time">
+                            <input type="number" name="s_dist[]" value="0" readonly class="col-dist">
+                            <span class="col-notes">ORIGIN</span>
                         </div>
                         
-                        <!-- Middle -->
                         <div class="schedule-row">
-                            <input type="number" name="stop_no[]" value="2">
-                            <input type="text" name="s_code[]" placeholder="Code" required>
-                            <input type="time" name="s_arr[]" required>
-                            <input type="time" name="s_dep[]" required>
-                            <input type="number" name="s_dist[]" placeholder="Km" required>
-                            <span>--</span>
+                            <input type="number" name="stop_no[]" value="2" class="col-stop">
+                            <input type="text" name="s_code[]" placeholder="Code" required class="col-code">
+                            <input type="time" name="s_arr[]" required class="col-time">
+                            <input type="time" name="s_dep[]" required class="col-time">
+                            <input type="number" name="s_dist[]" placeholder="Km" required class="col-dist">
+                            <span class="col-notes">--</span>
                         </div>
 
-                        <!-- Destination -->
                         <div class="schedule-row">
-                            <input type="number" name="stop_no[]" value="3">
-                            <input type="text" name="s_code[]" placeholder="Code" required>
-                            <input type="time" name="s_arr[]" required>
-                            <input type="time" name="s_dep[]" value="00:00" readonly>
-                            <input type="number" name="s_dist[]" placeholder="Km" required>
-                            <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 700;">DESTINATION</span>
+                            <input type="number" name="stop_no[]" value="3" class="col-stop">
+                            <input type="text" name="s_code[]" placeholder="Code" required class="col-code">
+                            <input type="time" name="s_arr[]" required class="col-time">
+                            <input type="time" name="s_dep[]" value="00:00" readonly class="col-time">
+                            <input type="number" name="s_dist[]" placeholder="Km" required class="col-dist">
+                            <span class="col-notes">DESTINATION</span>
                         </div>
                     </div>
 
@@ -246,24 +243,21 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
         function addRow() {
             const container = document.getElementById('scheduleContainer');
             const rows = container.getElementsByClassName('schedule-row');
-            const newIndex = rows.length + 1;
             
-            // For simplicity in this demo, we'll just insert a middle row before the last one
             const newRow = document.createElement('div');
             newRow.className = 'schedule-row';
             newRow.innerHTML = `
-                <input type="number" name="stop_no[]" value="${newIndex}">
-                <input type="text" name="s_code[]" placeholder="Code" required>
-                <input type="time" name="s_arr[]" required>
-                <input type="time" name="s_dep[]" required>
-                <input type="number" name="s_dist[]" placeholder="Km" required>
-                <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; color:#ef4444; font-weight:800; cursor:pointer;">&times;</button>
+                <input type="number" name="stop_no[]" value="0" class="col-stop">
+                <input type="text" name="s_code[]" placeholder="Code" required class="col-code">
+                <input type="time" name="s_arr[]" required class="col-time">
+                <input type="time" name="s_dep[]" required class="col-time">
+                <input type="number" name="s_dist[]" placeholder="Km" required class="col-dist">
+                <div class="col-notes">
+                    <button type="button" onclick="this.parentElement.parentElement.remove(); updateIndices();" style="background:none; border:none; color:#ef4444; font-weight:800; cursor:pointer; font-size:1.2rem;">&times;</button>
+                </div>
             `;
             
-            // Insert before the last child (destination)
             container.insertBefore(newRow, rows[rows.length - 1]);
-            
-            // Re-index all rows
             updateIndices();
         }
 

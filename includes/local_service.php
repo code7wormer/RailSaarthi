@@ -1,9 +1,6 @@
 <?php
 require_once 'db_rail.php';
 
-/**
- * Fetch general train information
- */
 function getTrainInfo($train_number) {
     global $conn_rail;
     $stmt = $conn_rail->prepare("SELECT t.*, s1.station_name as from_name, s2.station_name as to_name 
@@ -16,9 +13,6 @@ function getTrainInfo($train_number) {
     return $stmt->get_result()->fetch_assoc();
 }
 
-/**
- * Fetch full schedule for a train
- */
 function getTrainFullSchedule($train_number) {
     global $conn_rail;
     $stmt = $conn_rail->prepare("SELECT ts.*, s.station_name 
@@ -31,9 +25,6 @@ function getTrainFullSchedule($train_number) {
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-/**
- * Simulate Live Train Status based on current system time
- */
 function simulateLiveStatus($train_number) {
     $schedule = getTrainFullSchedule($train_number);
     $info = getTrainInfo($train_number);
@@ -43,11 +34,10 @@ function simulateLiveStatus($train_number) {
     $current_time = date('H:i:s');
     $current_timestamp = strtotime($current_time);
     
-    $last_reached_index = 0; // Default to first station
+    $last_reached_index = 0; 
     $is_running = false;
     $delay = rand(0, 15);
 
-    // Identify where the train is in the sequence
     foreach ($schedule as $index => $stop) {
         $dep_time = $stop['departure_time'] ? strtotime($stop['departure_time']) : null;
         $arr_time = $stop['arrival_time'] ? strtotime($stop['arrival_time']) : null;
@@ -58,18 +48,16 @@ function simulateLiveStatus($train_number) {
         } elseif ($arr_time && $current_timestamp > $arr_time) {
             $last_reached_index = $index;
             $is_running = true;
-            break; // Currently at a station
+            break; 
         }
     }
 
-    // Edge case: If we haven't even reached the departure time of the first station
     $first_dep = strtotime($schedule[0]['departure_time']);
     if ($current_timestamp < $first_dep) {
         $last_reached_index = 0;
         $is_running = false;
     }
 
-    // Build stoppages with sequential awareness
     $stoppages = [];
     foreach ($schedule as $index => $stop) {
         $status = 'upcoming';
@@ -113,9 +101,6 @@ function simulateLiveStatus($train_number) {
     ];
 }
 
-/**
- * Search trains between two stations
- */
 function searchTrainsBetween($from_code, $to_code) {
     global $conn_rail;
     $from_code = strtoupper($from_code);
@@ -154,16 +139,13 @@ function searchTrainsBetween($from_code, $to_code) {
     return $trains;
 }
 
-/**
- * Calculate travel duration between two times, handling day rollover
- */
 function calculateDuration($from_time, $to_time) {
     if (!$from_time || !$to_time) return "N/A";
     $start = strtotime($from_time);
     $end = strtotime($to_time);
     
     if ($end <= $start) {
-        $end += 86400; // Multi-day journey
+        $end += 86400; 
     }
     
     $diff = $end - $start;
@@ -173,9 +155,6 @@ function calculateDuration($from_time, $to_time) {
     return $hours . "h " . $mins . "m";
 }
 
-/**
- * Get all trains at a station (for Trip Planner)
- */
 function getTrainsAtStation($station_code) {
     global $conn_rail;
     $station_code = strtoupper($station_code);
@@ -205,14 +184,11 @@ function getTrainsAtStation($station_code) {
     return $trains;
 }
 
-/**
- * Generate a simulated coach sequence based on train type
- */
 function getCoachSequence($train_number) {
     $info = getTrainInfo($train_number);
     if (!$info) return [];
 
-    $sequence = ["EN"]; // Engine always first
+    $sequence = ["EN"]; 
     
     $type = strtolower($info['train_type'] ?? '');
     if (strpos($type, 'rajdhani') !== false || strpos($type, 'vande') !== false) {

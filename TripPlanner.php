@@ -142,27 +142,77 @@ if (!empty($station_code)) {
                     <span class="tagline">Desert Sands • Royalty</span>
                     <h3>Royal Heritage</h3>
                     <p>Experience the majestic forts and colorful culture of the Blue City and the Pink City.</p>
-                    
                     <div class="checklist">
                         <span class="checklist-title">Spots to Cover</span>
-                        <div class="checklist-item">
-                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                            Mehrangarh Fort
-                        </div>
-                        <div class="checklist-item">
-                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                            Umaid Bhawan Palace
-                        </div>
-                        <div class="checklist-item">
-                            <div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                            City Palace, Jaipur
-                        </div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Mehrangarh Fort</div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Umaid Bhawan Palace</div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> City Palace, Jaipur</div>
                     </div>
                 </div>
                 <div class="cost-info">
                     <div>
                         <span class="price-label">Est. Budget</span>
                         <div class="price">₹4,500 - ₹7,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trip-card">
+                <div class="trip-details">
+                    <span class="tagline">Western Ghats • Tea Trails</span>
+                    <h3>Southern Splendor</h3>
+                    <p>Wander through the emerald hills of Ooty and the Nilgiris via the UNESCO World Heritage mountain rail.</p>
+                    <div class="checklist">
+                        <span class="checklist-title">Spots to Cover</span>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Nilgiri Mountain Train</div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Doddabetta Peak</div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Tea Museum, Coonoor</div>
+                    </div>
+                </div>
+                <div class="cost-info">
+                    <div>
+                        <span class="price-label">Est. Budget</span>
+                        <div class="price">₹6,000 - ₹9,500</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trip-card">
+                <div class="trip-details">
+                    <span class="tagline">Spiritual • Enlightenment</span>
+                    <h3>Buddhist Circuit</h3>
+                    <p>Follow the sacred path of the Buddha across the historic plains of Bihar and Uttar Pradesh.</p>
+                    <div class="checklist">
+                        <span class="checklist-title">Spots to Cover</span>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Mahabodhi Temple, Gaya</div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Dhamekh Stupa, Sarnath</div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Dashashwamedh Ghat</div>
+                    </div>
+                </div>
+                <div class="cost-info">
+                    <div>
+                        <span class="price-label">Est. Budget</span>
+                        <div class="price">₹5,000 - ₹8,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trip-card">
+                <div class="trip-details">
+                    <span class="tagline">Himalayan Peaks • Peace</span>
+                    <h3>Mountain Odyssey</h3>
+                    <p>Embark on a high-altitude rail adventure through the snow-capped Dhauladhar ranges of Himachal.</p>
+                    <div class="checklist">
+                        <span class="checklist-title">Spots to Cover</span>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Kangra Valley Toy Train</div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Dharamshala Monastery</div>
+                        <div class="checklist-item"><div class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div> Bhagsu Nag Waterfall</div>
+                    </div>
+                </div>
+                <div class="cost-info">
+                    <div>
+                        <span class="price-label">Est. Budget</span>
+                        <div class="price">₹8,000 - ₹12,000</div>
                     </div>
                 </div>
             </div>
